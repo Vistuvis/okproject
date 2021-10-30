@@ -5,7 +5,7 @@ Okanagan website project
 
 
 How to use:
-1. edit php files in editor of your choice
+1. edit web files in editor of your choice
 2. upload or edit web files on this repository
 3. login to digital-ocean server and type
 4. cd /var/www/html/
