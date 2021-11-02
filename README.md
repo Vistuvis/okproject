@@ -1,5 +1,5 @@
 # okproject
-Okanagan website project
+college website project
 
 
 
