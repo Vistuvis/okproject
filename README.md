@@ -7,8 +7,8 @@ Okanagan website project
 How to use github:
 1. edit web files in editor of your choice
 2. upload or edit web files on this repository
-3. login to digital-ocean server and type
-4. cd /var/www/html/
+3. login to digital-ocean server
+4. type cd /var/www/html/
 5. type git pull
 6. refresh https://okproject.ca (might need to go to incognito mode)
 
