@@ -14,3 +14,14 @@ How to use github:
 
 
 You can 'commit' directly to this repository or you can make a 'pull' request. Pull requests are better because we can review the changes. Consult the documentation for more information but github is pretty easy to use.
+
+
+
+mysql Database:
+
+1. okprojectDB
+
+
+tables:
+1. Members
+2. Pets
