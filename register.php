@@ -22,7 +22,9 @@ $sql = "INSERT INTO Members VALUES (NULL, '".$fname."', '".$lname."', '".$email.
 if (mysqli_query($mysqli, $sql))
 {
 	echo "Your account was created";
+	echo "<a href=\"index.html\">Go Home</a>";
 } else {
 	echo "Account creation failed.";
+	echo "<a href=\"index.html\">Go Home</a>";
 }
 ?>
