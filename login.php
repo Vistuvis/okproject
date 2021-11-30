@@ -23,7 +23,7 @@ if (mysqli_num_rows($result) == 0) {
 }
 	
 setcookie("auth", session_id(), time()+60*30, "/", "", 0);
-header("Location: pet_page.html");
+header("Location: pet_selection.html");
 exit;
 
 while($row = mysqli_fetch_assoc($result)) {
