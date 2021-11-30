@@ -1,3 +1,17 @@
+<?php
+                  session_start();
+
+                  $server="localhost";
+                  $user="thu";
+                  $pass="letmein7";
+                  $database="okprojectDB";
+                  
+                  $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
+                  $sql = "SELECT p.* FROM Pets p, Members m WHERE p.memID = m.memID";
+
+
+                ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +49,7 @@
           }
       }
     </script>
+    
 </head>
 <body>
 
@@ -78,10 +93,7 @@
         <div class="col-md-12">
           <div class="service-item">
             <div class="down-content">
-                <?php
-                  
-                ?>
-              </div>
+
             </div>
           </div>
         </div>
