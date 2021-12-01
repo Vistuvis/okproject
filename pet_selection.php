@@ -92,40 +92,48 @@ if (mysqli_num_rows($result) == 0) {
 
 
 
-<div class="w3-row-padding w3-padding-64 w3-container">
-  <div class="w3-content">
-    <div class="w3-center">
+<div class=" ok-table-container w3-padding-64 w3-row-padding w3-green">
+  <div class="ok-content";
       <?php
 
         
         if($pets){
          // $row = mysqli_fetch_array($result);
+         echo "<div=\"ok-row\">";
           while ($row = mysqli_fetch_array($result)) {
             $imageloc = $row['imageLocation'];
             $name = $row['petName'];
            // echo $imageloc;
            // echo "<img src=\"imageloc\" alt=\"$name\">";
-            printf("      
-            <table class=\"pet-table pet-table2 pet-bordered\">
+            printf("  
+            <div class =\"ok-column\">    
+            <table class=\"pet-table pet-bordered pet-table2\">
             <tr>
             <td>
             <h2>%s </h2>
             </td>
             </tr>
-            <tr>
-            <td>
+            <tr id=\"#image-container\">
+            <td id=\"#image-container\">
             <img src=\"%s\" alt=\"%s\">
             </td>
            </tr>
-            </table>",$name, $row['imageLocation'], $name);
+            <tr>
+            <td>
+            <form method=\"POST\ action=\"petpage.php\">
+            <input type=\"submit\" value=\"Interact With\" class=\"w3-button w3-black w3-large w3-margin-top\" />
+            </form>
+            </td>
+           </tr>
+           </table>
+            </div>",$name, $row['imageLocation'], $name);
             
           }
+          echo "</div>";
         }
 
 
       ?>
-
-    </div>
   </div>
 </div>
 

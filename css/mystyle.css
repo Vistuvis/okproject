@@ -18,6 +18,11 @@
     background-color: #4CAF50;
 }
 
+.ok-table-container {
+
+    float: center;
+    width: 25;
+}
 
 input {
     border-radius: 20px;
@@ -43,51 +48,87 @@ input {
 	text-align: right;
 	border: none;
     white-space: normal;
-	
 
 }
 
 .pet-table .pet-table2{
-	border-collapse: collapse;
+    box-sizing: border-box;
     border-spacing: 0;
     width: 100%;
-    table: table;
+    overflow: hidden;
+    border-radius: 30%;
+    color: black;
 }
 .pet-table2 {
-    border: 1px solid #ccc
+    border: 1px solid #ccc;
 }
 
 .pet-bordered tr, .pet-table2 tr {
-    border-bottom: 1px solid #ddd
+    border-bottom: 1px solid #ddd;
+
 }
 
 .pet-striped tbody tr:nth-child(even) {
-    background-color: #f1f1f1
+    background-color: #f1f1f1;
 }
 
 .pet-table2 tr:nth-child(odd) {
-    background-color: #fff
+    background-color: #fff;
 }
 
 .pet-table2 tr:nth-child(even) {
-    background-color: #f1f1f1
+    background-color: #f1f1f1;
 }
 .pet-table td, .pet-table th, .pet-table2 td, .pet-table2 th {
+    color: black;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 	width: 250px;
     height: 170px;
     padding: 8px 8px;
-    table: table-cell;
     text-align: center;
-    vertical-align: top
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    
+	box-shadow: rgba(0, 0, 0, 0.15);
+
 }
-/* Resize images */
+#image-container {
+    width: 250px !important; 
+    height: 500px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
 .pet-table img {
     width: 100%;
     height: auto;
 }
 .pet-table th:first-child, .pet-table td:first-child, .pet-table2 th:first-child, .pet-table2 td:first-child {
-    padding-left: 16px
+    padding-left: 16px;
 	width: auto;
     height: 70px;
 }
+
+
+.ok-row {
+    margin-left:-5px;
+  }
+    
+  .ok-column {
+    float: left;
+    width: 350px;
+    padding: 25px;
+  }
+  .ok-row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .ok-content{
+    max-width: 1600px;
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    border-radius: 15px;
+
+  }

@@ -16,7 +16,7 @@ html {
 }
 
 *, *:before, *:after {
-    box-sizing: inherit
+    box-sizing: border-box
 }
 
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */
@@ -55,7 +55,9 @@ audio:not([controls]) {
 }
 
 a {
-    background-color: transparent
+    background-color: transparent;
+    text-decoration: none;
+    display: block;
 }
 
 a:active, a:hover {
