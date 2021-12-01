@@ -1,111 +1,176 @@
 <?php
-                  session_start();
+session_start();
 
-                  $server="localhost";
-                  $user="thu";
-                  $pass="letmein7";
-                  $database="okprojectDB";
-                  
-                  $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
-                  $sql = "SELECT p.* FROM Pets p, Members m WHERE p.memID = m.memID";
+if (filter_input (INPUT_COOKIE, 'auth') == session_id()) {
+	$output = "Good luck on your play!";
+} else {
+	//redirect back to login form if not authorized
+	header("Location: login.html");
+	exit;
+}
+$server="localhost";
+$user="thu";
+$pass="letmein7";
+$database="okprojectDB";
+
+$mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
+
+$userID = $_SESSION["userid"];
+
+$sql = "SELECT * FROM Pets WHERE memID = $userID";
+$result = mysqli_query($mysqli, $sql);
+
+if (mysqli_num_rows($result) == 0) {	
+	if (!filter_input(INPUT_POST, "username") || !filter_input(INPUT_POST, "password")) {
+		
+		$display = "You have no pets. Please create one!";
+    $pets = false;
+	}
+} else {
+  $display = "You have pets! Please select one:";
+  $pets = true;
+}
 
 
-                ?>
+?>
+
 
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="TemplateMo">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+<html lang="en">
+<title>Ok Project</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>OK Project</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/mystyle.css">
+<link rel="stylesheet" href="css/w3style.css">
+    <script>
+        // Used to toggle the menu on small screens when clicking on the menu button
+        function myFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-finance-business.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Additional Scripts -->
-    <script src="assets/js/custom.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/slick.js"></script>
-    <script src="assets/js/accordions.js"></script>
-
-    <script language = "text/Javascript"> 
-      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-      function clearField(t){                   //declaring the array outside of the
-      if(! cleared[t.id]){                      // function makes it static and global
-          cleared[t.id] = 1;  // you could use true and false, but that's more typing
-          t.value='';         // with more chance of typos
-          t.style.color='#fff';
-          }
-      }
+        function registerValidation() {
+            const pass = document.getElementById("pass").value;
+            const passCon = document.getElementById("passCon").value;
+            if (pass != passCon) {
+                alert("Password is not matched");
+                return false;
+            }
+        }
     </script>
-    
-</head>
 <body>
 
-<header class="">
-    <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand" href="index.html"><h2>OK PROJECT</h2></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="pet_page.html">Pet Page</a>
-            </li>
-          </ul>
+    <!-- Navbar -->
+    <div class="w3-top">
+        <div class="w3-bar w3-green w3-card w3-justify w3-large  w3-opacity">
+          <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+          <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Home</a>
+          <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large w3-white">My Pets</a>
+          <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
+        </div>
+      
+        <!-- Navbar on small screens -->
+        <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+          <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large">My Pets</a>
+          <a href="logout.php" class="right-bar-item w3-button w3-padding-large">Logout</a>
         </div>
       </div>
-    </nav>
-    </header>
 
-    <div class="page-heading header-text">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h1>Your Pet Page</h1>
-            <span>Care for your pet here!</span>
-          </div>
+    <!-- Header -->
+    <header id="ok-background" class="w3-container w3-green w3-center" style="padding:128px 16px">
+  <h1 class="ok-text-color w3-margin w3-jumbo">Pet Page</h1>
+  <p class="ok-text-color w3-xlarge"><?php echo $display; ?></p>
+</header>
+
+
+
+<div class=" ok-table-container w3-padding-64 w3-row-padding w3-green">
+<?php if(!$pet){
+  <?=  "<header id=\"ok-background\" class=\"w3-container w3-green w3-center\" style="padding:128px 16px">
+  <p class=\"ok-text-color w3-xlarge\">Please create your pet</p>
+  <button class=\"w3-button w3-black w3-large w3-margin-top\"> <a href="login.html">Create Pet</a></button>
+</header>"
+>
+}
+?>
+
+  <div class="ok-content";
+      <?php
+
+        
+        if($pets){
+         // $row = mysqli_fetch_array($result);
+         echo "<div=\"ok-row\">";
+          while ($row = mysqli_fetch_array($result)) {
+            $imageloc = $row['imageLocation'];
+            $name = $row['petName'];
+           // echo $imageloc;
+           // echo "<img src=\"imageloc\" alt=\"$name\">";
+            printf("  
+            <div class =\"ok-column\">    
+            <table class=\"pet-table pet-bordered pet-table2\">
+            <tr>
+            <td>
+            <h2>%s </h2>
+            </td>
+            </tr>
+            <tr id=\"#image-container\">
+            <td id=\"#image-container\">
+            <img src=\"%s\" alt=\"%s\">
+            </td>
+           </tr>
+            <tr>
+            <td>
+            <form method=\"POST\ action=\"petpage.php\">
+            <input type=\"submit\" value=\"Interact With\" class=\"w3-button w3-black w3-large w3-margin-top\" />
+            </form>
+            </td>
+           </tr>
+           </table>
+            </div>",$name, $row['imageLocation'], $name);
+            
+          }
+          echo "</div>";
+        }
+
+
+      ?>
+  </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="w3-green w3-container w3-padding-64 w3-center w3-opacity">
+        <div class="w3-xlarge w3-padding-32">
+            <i class="fa fa-facebook-official w3-hover-opacity"></i>
+            <i class="fa fa-instagram w3-hover-opacity"></i>
+            <i class="fa fa-snapchat w3-hover-opacity"></i>
+            <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+            <i class="fa fa-twitter w3-hover-opacity"></i>
+            <i class="fa fa-linkedin w3-hover-opacity"></i>
         </div>
-      </div>
-    </div>
+        <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </footer>
 
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="service-item">
-            <div class="down-content">
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-
-
+    <script>
+        // Used to toggle the menu on small screens when clicking on the menu button
+        function myFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+    </script>
 
 </body>
+
 </html>
