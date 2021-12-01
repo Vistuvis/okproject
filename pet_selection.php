@@ -14,8 +14,10 @@ $pass="letmein7";
 $database="okprojectDB";
 
 $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
-
+$pets = false;
 $userID = $_SESSION["userid"];
+$username = $_SESSION["username"];
+$rname = $_SESSION["fname"];
 
 $sql = "SELECT * FROM Pets WHERE memID = $userID";
 $result = mysqli_query($mysqli, $sql);
@@ -23,11 +25,11 @@ $result = mysqli_query($mysqli, $sql);
 if (mysqli_num_rows($result) == 0) {	
 	if (!filter_input(INPUT_POST, "username") || !filter_input(INPUT_POST, "password")) {
 		
-		$display = "You have no pets. Please create one!";
+		$display = "Sad news, $rname, you have no pets. Please create one!";
     $pets = false;
 	}
 } else {
-  $display = "You have pets! Please select one:";
+  $display = "Congratulations, $rname, you have pets! Please select one:";
   $pets = true;
 }
 
@@ -93,12 +95,13 @@ if (mysqli_num_rows($result) == 0) {
 
 
 <div class=" ok-table-container w3-padding-64 w3-row-padding w3-green">
-<?php if(!$pet){
-  <?=  "<header id=\"ok-background\" class=\"w3-container w3-green w3-center\" style="padding:128px 16px">
+<?php 
+
+if($pets == false){
+  echo "<div class=\"w3-container w3-white w3-center\" style=\"padding:128px 16px\">
   <p class=\"ok-text-color w3-xlarge\">Please create your pet</p>
-  <button class=\"w3-button w3-black w3-large w3-margin-top\"> <a href="login.html">Create Pet</a></button>
-</header>"
->
+  <button class=\"w3-button w3-black w3-large w3-margin-top\"> <a href=\"#\">Create Pet</a></button>
+</div>";
 }
 ?>
 

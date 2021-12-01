@@ -63,15 +63,16 @@ $pass="letmein7";
 $database="okprojectDB";
 
 $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
-$sql = "SELECT email from Members";
-$result = mysqli_query($mysqli, $sql);
-echo "$result";
-if($result['email'] == $email) {
-	echo "That email is already in use";
+$sql2 = "SELECT email, userName FROM Members WHERE email = '$email' OR userName = '$username';";
+$result = mysqli_query($mysqli, $sql2);
+//echo "$result";
+
+if(mysqli_num_rows($result) >= 1) {
+	echo "The email or username is already in use";
 	echo "<a href=\"register.html\">Go back</a>";
 	mysqli_close();
-}
-else{
+    exit;
+} else{
     $sql = "INSERT INTO Members VALUES (NULL, '".$lname."', '".$fname."', '".$email."', '".$username."', SHA1('".$password."'), CURDATE());";
 
     if (mysqli_query($mysqli, $sql)) {
