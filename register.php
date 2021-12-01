@@ -38,6 +38,12 @@
             <a href="register.html" class="w3-bar-item w3-button w3-padding-large">Register</a>
         </div>
     </div>
+
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+
+      <h5 class="w3-padding-32">
 <?php
 if (!filter_input(INPUT_POST, "fname") || !filter_input(INPUT_POST, "lname") ||
     !filter_input(INPUT_POST, "email") || !filter_input(INPUT_POST, "username") || !filter_input(INPUT_POST, "password")) {
@@ -59,7 +65,8 @@ $database="okprojectDB";
 $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
 $sql = "SELECT email from Members";
 $result = mysqli_query($mysqli, $sql);
-if($result == $email) {
+echo "$result";
+if($result['email'] == $email) {
 	echo "That email is already in use";
 	echo "<a href=\"register.html\">Go back</a>";
 	mysqli_close();
@@ -78,5 +85,11 @@ else{
     }
 }
 ?>
+
+</h5>
+
+    </div>
+  </div>
+</div>
 </body>
 </html>

@@ -16,11 +16,10 @@ $sql = "SELECT * FROM Members WHERE userName = '$username' AND password = SHA1('
 $result = mysqli_query($mysqli, $sql);
 
 if (mysqli_num_rows($result) == 0) {	
-	if (!filter_input(INPUT_POST, "username") || !filter_input(INPUT_POST, "password")) {
-		$_POST["loginfailed"] = "Username or password is incorrect";
+	
 		header("Location: login.html");
+		mysqli_close();
 		exit;
-	}
 }
 	
 setcookie("auth", session_id(), time()+60*30, "/", "", 0);

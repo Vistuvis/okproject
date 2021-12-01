@@ -93,6 +93,15 @@ if (mysqli_num_rows($result) == 0) {
 
 
 <div class=" ok-table-container w3-padding-64 w3-row-padding w3-green">
+<?php if(!$pet){
+  <?=  "<header id=\"ok-background\" class=\"w3-container w3-green w3-center\" style="padding:128px 16px">
+  <p class=\"ok-text-color w3-xlarge\">Please create your pet</p>
+  <button class=\"w3-button w3-black w3-large w3-margin-top\"> <a href="login.html">Create Pet</a></button>
+</header>"
+>
+}
+?>
+
   <div class="ok-content";
       <?php
 
