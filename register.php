@@ -17,14 +17,16 @@ $pass="letmein7";
 $database="okprojectDB";
 
 $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
-$sql = "INSERT INTO Members VALUES (NULL, '".$fname."', '".$lname."', '".$email."', '".$username."', SHA1('".$password."'), CURDATE());";
+$sql = "INSERT INTO Members VALUES (NULL, '".$lname."', '".$fname."', '".$email."', '".$username."', SHA1('".$password."'), CURDATE());";
 
 if (mysqli_query($mysqli, $sql))
 {
 	echo "Your account was created";
 	echo "<a href=\"index.html\">Go Home</a>";
+	mysqli_close();
 } else {
 	echo "Account creation failed.";
 	echo "<a href=\"index.html\">Go Home</a>";
+	mysqli_close();
 }
 ?>
