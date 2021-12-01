@@ -1,0 +1,34 @@
+#ok-background {
+
+    background-image: url("../assets/css-images/background1.jpg");
+    background-color: hsl(122, 49%, 38%);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.ok-text-color {
+
+    color: black;
+    border-color: whitesmoke;
+
+}
+
+.ok-footer-background {
+    background-color: #4CAF50;
+}
+
+
+input {
+    border-radius: 20px;
+	height: 40px;
+	line-height: 40px;
+	display: inline-block;
+	padding: 0px 15px;
+	color: #6a6a6a;
+	font-size: 13px;
+	text-transform: none;
+	box-shadow: none;
+	border: none;
+	margin-bottom: 10px;
+}

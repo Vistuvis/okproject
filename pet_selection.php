@@ -1,3 +1,17 @@
+<?php
+                  session_start();
+
+                  $server="localhost";
+                  $user="thu";
+                  $pass="letmein7";
+                  $database="okprojectDB";
+                  
+                  $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
+                  $sql = "SELECT p.* FROM Pets p, Members m WHERE p.memID = m.memID";
+
+
+                ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,6 +49,7 @@
           }
       }
     </script>
+    
 </head>
 <body>
 
@@ -54,15 +69,6 @@
             </li>
             <li class="nav-item active">
               <a class="nav-link" href="pet_page.html">Pet Page</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="about.html">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="services.html">Our Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="one-page.html">One Page</a>
             </li>
           </ul>
         </div>
@@ -87,12 +93,7 @@
         <div class="col-md-12">
           <div class="service-item">
             <div class="down-content">
-              
-                  <button class="submit-btn" id="newpet">New Pet</button>
-                  <button class="submit-btn" id="feed">Feed Your Pets</button>
-                  <button class="submit-btn" id="examine">Examine</button>
-                  <button class="submit-btn" id="log">Pet Log</button>
-              </div>
+
             </div>
           </div>
         </div>
