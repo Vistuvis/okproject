@@ -23,7 +23,7 @@ input {
     border-radius: 20px;
 	height: 40px;
 	line-height: 40px;
-	display: inline-block;
+	table: inline-block;
 	padding: 0px 15px;
 	color: #6a6a6a;
 	font-size: 13px;
@@ -31,4 +31,63 @@ input {
 	box-shadow: none;
 	border: none;
 	margin-bottom: 10px;
+}
+
+.right-bar-item {
+	padding: 8px 16px;
+    float: right;
+    width: auto;
+    border: none;
+    table: block;
+    outline: 0;
+	text-align: right;
+	border: none;
+    white-space: normal;
+	
+
+}
+
+.pet-table .pet-table2{
+	border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    table: table;
+}
+.pet-table2 {
+    border: 1px solid #ccc
+}
+
+.pet-bordered tr, .pet-table2 tr {
+    border-bottom: 1px solid #ddd
+}
+
+.pet-striped tbody tr:nth-child(even) {
+    background-color: #f1f1f1
+}
+
+.pet-table2 tr:nth-child(odd) {
+    background-color: #fff
+}
+
+.pet-table2 tr:nth-child(even) {
+    background-color: #f1f1f1
+}
+.pet-table td, .pet-table th, .pet-table2 td, .pet-table2 th {
+	width: 250px;
+    height: 170px;
+    padding: 8px 8px;
+    table: table-cell;
+    text-align: center;
+    vertical-align: top
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+/* Resize images */
+.pet-table img {
+    width: 100%;
+    height: auto;
+}
+.pet-table th:first-child, .pet-table td:first-child, .pet-table2 th:first-child, .pet-table2 td:first-child {
+    padding-left: 16px
+	width: auto;
+    height: 70px;
 }

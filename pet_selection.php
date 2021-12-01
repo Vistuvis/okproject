@@ -2,7 +2,7 @@
 session_start();
 
 if (filter_input (INPUT_COOKIE, 'auth') == session_id()) {
-	echo "<h1>Good luck on your play!</h1>";
+	$output = "Good luck on your play!";
 } else {
 	//redirect back to login form if not authorized
 	header("Location: login.html");
@@ -15,21 +15,21 @@ $database="okprojectDB";
 
 $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
 
-$username = filter_input(INPUT_POST, "username");
-$password = filter_input(INPUT_POST, "password");
+$userID = $_SESSION["userid"];
 
-$sql = "SELECT * FROM Members WHERE username = '".$username."' AND password = SHA1('".$password."')";
+$sql = "SELECT * FROM Pets WHERE memID = $userID";
 $result = mysqli_query($mysqli, $sql);
 
 if (mysqli_num_rows($result) == 0) {	
 	if (!filter_input(INPUT_POST, "username") || !filter_input(INPUT_POST, "password")) {
-		header("Location: register.html");
-		exit;
+		
+		$display = "You have no pets. Please create one!";
+    $pets = false;
 	}
+} else {
+  $display = "You have pets! Please select one:";
+  $pets = true;
 }
-
-
-echo $_SESSION["userid"];
 
 
 ?>
@@ -70,39 +70,61 @@ echo $_SESSION["userid"];
 
     <!-- Navbar -->
     <div class="w3-top">
-        <div class="w3-bar w3-green w3-card w3-left-align w3-large  w3-opacity">
+        <div class="w3-bar w3-green w3-card w3-justify w3-large  w3-opacity">
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-          <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-          <a href="pet_selection.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pets</a>
+          <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Home</a>
+          <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large w3-white">My Pets</a>
+          <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
         </div>
       
         <!-- Navbar on small screens -->
         <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-          <a href="pet_selection.html" class="w3-bar-item w3-button w3-padding-large">My Pets</a>
+          <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large">My Pets</a>
+          <a href="logout.php" class="right-bar-item w3-button w3-padding-large">Logout</a>
         </div>
       </div>
 
     <!-- Header -->
     <header id="ok-background" class="w3-container w3-green w3-center" style="padding:128px 16px">
   <h1 class="ok-text-color w3-margin w3-jumbo">Pet Page</h1>
-  <p class="ok-text-color w3-xlarge">Please select from a list of your pets:</p>
+  <p class="ok-text-color w3-xlarge"><?php echo $display; ?></p>
 </header>
 
 
 
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
-    <div class="w3-twothird">
-      <h1>Lorem Ipsum</h1>
-      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+    <div class="w3-center">
+      <?php
 
-      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+        
+        if($pets){
+         // $row = mysqli_fetch_array($result);
+          while ($row = mysqli_fetch_array($result)) {
+            $imageloc = $row['imageLocation'];
+            $name = $row['petName'];
+           // echo $imageloc;
+           // echo "<img src=\"imageloc\" alt=\"$name\">";
+            printf("      
+            <table class=\"pet-table pet-table2 pet-bordered\">
+            <tr>
+            <td>
+            <h2>%s </h2>
+            </td>
+            </tr>
+            <tr>
+            <td>
+            <img src=\"%s\" alt=\"%s\">
+            </td>
+           </tr>
+            </table>",$name, $row['imageLocation'], $name);
+            
+          }
+        }
 
-    <div class="w3-third w3-center">
-      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+
+      ?>
+
     </div>
   </div>
 </div>
