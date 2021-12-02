@@ -24,6 +24,8 @@ if (mysqli_num_rows($result) == 0) {
 	
 setcookie("auth", session_id(), time()+60*30, "/", "", 0);
 $row = $result->fetch_assoc();
+
+//session user variables
 $_SESSION["userid"] = $row["memID"];
 $_SESSION["username"] = $row["userName"];
 $_SESSION["fname"] = $row["fName"];

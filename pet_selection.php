@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if (filter_input (INPUT_COOKIE, 'auth') == session_id()) {
-	$output = "Good luck on your play!";
+if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
+    $output = "Good luck on your play!";
 } else {
-	//redirect back to login form if not authorized
-	header("Location: login.html");
-	exit;
+    //redirect back to login form if not authorized
+    header("Location: login.html");
+    exit;
 }
 $server="localhost";
 $user="thu";
@@ -22,18 +22,15 @@ $rname = $_SESSION["fname"];
 $sql = "SELECT * FROM Pets WHERE memID = $userID";
 $result = mysqli_query($mysqli, $sql);
 
-if (mysqli_num_rows($result) == 0) {	
-	if (!filter_input(INPUT_POST, "username") || !filter_input(INPUT_POST, "password")) {
-		
-		$display = "Sad news, $rname, you have no pets. Please create one!";
-    $pets = false;
-	}
+if (mysqli_num_rows($result) == 0) {
+    if (!filter_input(INPUT_POST, "username") || !filter_input(INPUT_POST, "password")) {
+        $display = "Sad news, $rname, you have no pets. Please create one!";
+        $pets = false;
+    }
 } else {
-  $display = "Congratulations, $rname, you have pets! Please select one:";
-  $pets = true;
+    $display = "Congratulations, $rname, you have pets! Please select one:";
+    $pets = true;
 }
-
-
 ?>
 
 
@@ -48,26 +45,6 @@ if (mysqli_num_rows($result) == 0) {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/mystyle.css">
 <link rel="stylesheet" href="css/w3style.css">
-    <script>
-        // Used to toggle the menu on small screens when clicking on the menu button
-        function myFunction() {
-            var x = document.getElementById("navDemo");
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
-
-        function registerValidation() {
-            const pass = document.getElementById("pass").value;
-            const passCon = document.getElementById("passCon").value;
-            if (pass != passCon) {
-                alert("Password is not matched");
-                return false;
-            }
-        }
-    </script>
 <body>
 
     <!-- Navbar -->
@@ -92,32 +69,48 @@ if (mysqli_num_rows($result) == 0) {
   <p class="ok-text-color w3-xlarge"><?php echo $display; ?></p>
 </header>
 
+<div id="myModal" class="modal">
+<div class="modal-content w3-center">
+  <div class="modal-header w3-green ">
+    <span class="close">&times;</span>
+    <h2>Select Attributes for your Pet</h2>
+  </div>
+  <div class="modal-body">
+  <form class="register-form2" method="POST" action="pet_selection.php" onsubmit="return registerValidation()">
+            <div class="name">
+                <input class="input2" type="text" name="Pet Name" placeholder="Pet Name" required minlength="3" maxlength="20" />
+            </div>
+        
+            <div><input type="submit" value="Adopt Pet!" class="w3-button w3-black w3-large w3-margin-top" /></div>
+        </form>
+  </div>
+</div>
+</div>
 
 
 <div class=" ok-table-container w3-padding-64 w3-row-padding w3-green">
-<?php 
+<?php
 
-if($pets == false){
-  echo "<div class=\"w3-container w3-white w3-center\" style=\"padding:128px 16px\">
+if ($pets == false) {
+    echo "<div class=\"w3-container w3-white w3-center\" style=\"padding:128px 16px\">
   <p class=\"ok-text-color w3-xlarge\">Please create your pet</p>
-  <button class=\"w3-button w3-black w3-large w3-margin-top\"> <a href=\"#\">Create Pet</a></button>
+  <button id=\"myBtn\" class=\" w3-button w3-black w3-large w3-margin-top\">Create a Pet</button>
 </div>";
 }
 ?>
-
   <div class="ok-content";
       <?php
 
         
-        if($pets){
-         // $row = mysqli_fetch_array($result);
-         echo "<div=\"ok-row\">";
-          while ($row = mysqli_fetch_array($result)) {
-            $imageloc = $row['imageLocation'];
-            $name = $row['petName'];
-           // echo $imageloc;
-           // echo "<img src=\"imageloc\" alt=\"$name\">";
-            printf("  
+        if ($pets) {
+            // $row = mysqli_fetch_array($result);
+            echo "<div=\"ok-row\">";
+            while ($row = mysqli_fetch_array($result)) {
+                $imageloc = $row['imageLocation'];
+                $name = $row['petName'];
+                // echo $imageloc;
+                // echo "<img src=\"imageloc\" alt=\"$name\">";
+                printf("  
             <div class =\"ok-column\">    
             <table class=\"pet-table pet-bordered pet-table2\">
             <tr>
@@ -138,10 +131,9 @@ if($pets == false){
             </td>
            </tr>
            </table>
-            </div>",$name, $row['imageLocation'], $name);
-            
-          }
-          echo "</div>";
+            </div>", $name, $row['imageLocation'], $name);
+            }
+            echo "</div>";
         }
 
 
@@ -171,6 +163,32 @@ if($pets == false){
             } else {
                 x.className = x.className.replace(" w3-show", "");
             }
+        }
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
         }
     </script>
 
