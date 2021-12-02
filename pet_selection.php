@@ -53,13 +53,16 @@ if (mysqli_num_rows($result) == 0) {
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
           <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Home</a>
           <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large w3-white">My Pets</a>
+          <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Rankings</a>
           <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
         </div>
       
         <!-- Navbar on small screens -->
         <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+        <a href="index.html" class="w3-bar-item w3-button w3-padding-large">Home</a>
           <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large">My Pets</a>
-          <a href="logout.php" class="right-bar-item w3-button w3-padding-large">Logout</a>
+          <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large">Rankings</a>
+          <a href="logout.php" class="w3-bar-item w3-button w3-padding-large">Logout</a>
         </div>
       </div>
 
@@ -80,7 +83,22 @@ if (mysqli_num_rows($result) == 0) {
             <div class="name">
                 <input class="input2" type="text" name="Pet Name" placeholder="Pet Name" required minlength="3" maxlength="20" />
             </div>
-        
+            <fieldset class="optionGroup">
+            <?php
+              $dirname = __DIR__."/pet_assets/";
+              //echo $dirname;
+              $dir = new DirectoryIterator($dirname);
+              foreach ($dir as $fileinfo) {
+                  if (!$fileinfo->isDot()) {
+                      //echo ($fileinfo->getFilename());
+                      echo "<label>
+                      <input type=\"radio\" name=\"ccard\" ><img src=\"pet_assets\\$fileinfo\" class=\"resize\">
+                      </label>";
+                  }
+              }
+
+            ?>
+            </fieldset>
             <div><input type="submit" value="Adopt Pet!" class="w3-button w3-black w3-large w3-margin-top" /></div>
         </form>
   </div>
@@ -190,6 +208,20 @@ if ($pets == false) {
             modal.style.display = "none";
           }
         }
+
+      function insertNewPet() {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          document.getElementById("demo").innerHTML = xhr.responseText;
+        }
+      };
+      const userid = $_session["userid"];
+      xhr.open("POST", "newpet.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      const data = "memID=...&petName=" + document.getElementById("petName").value;
+      xhr.send(data);
+    }
     </script>
 
 </body>
