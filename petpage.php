@@ -205,10 +205,10 @@ var intervalId = window.setInterval(function(){ //update health and saves automa
             }
             const happiness = document.getElementById("happiness-points").innerHTML;
             let happinessLevel = parseInt(happiness);
-            if(happinessLevel > 0){
+            if(happinessLevel >= 0){
              happinessLevel -= happyCounter;
             }
-            if(hungerLevel == 0){
+            if(hungerLevel <= 0){
                 healthlevel -= 5;
             } else{
             hungerLevel -= 5;
@@ -266,16 +266,8 @@ var intervalId = window.setInterval(function(){ //update health and saves automa
         }
         
         function saveData() {
-            const xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
             xhr.open("POST", "savegame.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            const happiness = parseInt(document.getElementById("happiness-points").innerHTML);
-            const hunger = parseInt(document.getElementById("hunger-points").innerHTML);
-            const health = parseInt(document.getElementById("health-points").innerHTML);
-            let data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
-
-            xhr.send(data);
-            console.log(xhr.readyState);
 
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -285,6 +277,16 @@ var intervalId = window.setInterval(function(){ //update health and saves automa
                     });
                 }
             };
+
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            const happiness = parseInt(document.getElementById("happiness-points").innerHTML);
+            const hunger = parseInt(document.getElementById("hunger-points").innerHTML);
+            const health = parseInt(document.getElementById("health-points").innerHTML);
+            let data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
+
+            xhr.send(data);
+            console.log(xhr.readyState);
+
 
         }
     </script>
