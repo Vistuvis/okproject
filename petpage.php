@@ -269,7 +269,7 @@ function petdeath(){
                 document.getElementById("dialog-container").innerHTML="<img id='dialog-full' src='assets/css-images/dialog-full.png'>";
                 // show icon in 3s using Jquery
                 $(document).ready(() => {
-                    $("#dialog-container").show().fadeOut(1000);
+                    $("#dialog-container").show().fadeOut(2000);
                 });
             }
         }
@@ -311,7 +311,7 @@ function petdeath(){
 
             xhr.send(data);
             console.log(xhr.readyState);
-
+            
 
         }
     </script>
