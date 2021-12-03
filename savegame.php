@@ -20,7 +20,7 @@ $database="okprojectDB";
 
 $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
 
-$sql = "UPDATE Pets SET happiness = ".$happiness.", health = ".$health.", hunger = ".$hunger." WHERE petID = $petID"; //changed petid from 1
+$sql = "UPDATE Pets SET happiness = ".$happiness.", health = ".$health.", hunger = ".$hunger." WHERE petID = ".$petID; //changed petid from 1
 if (mysqli_query($mysqli, $sql)) {
 	echo "Success!";
 }

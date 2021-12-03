@@ -230,7 +230,7 @@ $imageloc = $_POST['imageLocation'];
 
             xhr.open("POST", "savegame.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            // 
+            console.log(<?php echo $petID;?>);
             const data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
             xhr.send(data);
         }
