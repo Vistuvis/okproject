@@ -1,20 +1,3 @@
-<?php
-
-session_start();
-
-if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
-    $output = "Good luck on your play!";
-} else {
-    //redirect back to login form if not authorized
-    header("Location: login.html");
-    exit;
-}
-
-
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <title>Ok Project</title>
@@ -28,7 +11,25 @@ if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/mystyle.css">
 <link rel="stylesheet" href="css/w3style.css">
+<style>
+  main {
+      width: 50%;
+      margin: 0 auto;
+  }
 
+  #pets-ranking-container, #players-ranking-container {
+      display: none;
+      text-align: center;
+  }
+
+  table {
+      margin: 0 auto;
+  }
+
+  td, th {
+    padding: 20px;
+  }
+</style>
 
 <body>
 
@@ -54,9 +55,9 @@ if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
 <header id="ok-background" class="w3-container w3-green w3-center" style="padding:128px 16px">
   <h1 class="ok-text-color w3-margin w3-jumbo">Global Rankings</h1>
   <p class="ok-text-color w3-xlarge">Please select an option to display ranks.</p>
+  <button onclick="rankPets()" class="w3-button w3-black w3-large w3-margin-top">Best PETS Ranking</button>
+  <button onclick="rankPlayers()" class="w3-button w3-black w3-large w3-margin-top">Best PLAYERS Ranking</button>
 </header>
-
-
 <?php
 
 $server="localhost";
@@ -66,11 +67,69 @@ $database="okprojectDB";
 
 $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
 
-//here is where need maybe some options to select different tables?
+// query for best pet
+$sqlPet = "SELECT p.petName, p.happiness, m.userName ".
+          "FROM Pets p, Members m ".
+          "WHERE p.memID = m.memID ".
+          "ORDER BY p.happiness DESC";
 
+$resultPet = mysqli_query($mysqli, $sqlPet) or die(mysqli_error($mysqli));
 
+if (mysqli_num_rows($resultPet) >= 1) {                
+    $blockPet ="<table id='pets-ranking'><tr>"
+        ."<th>Pets</th>"
+        ."<th>Happiness</th>"
+        ."<th>Players</th>"."</tr>";
+
+    while ($info = mysqli_fetch_array($resultPet)) {
+        $petName = stripslashes($info['petName']);
+        $happiness = $info['happiness'];
+        $userName = stripslashes($info['userName']);
+        $blockPet .= "<tr>";
+        $blockPet .= "<td>".$petName."</td>";
+        $blockPet .= "<td>".$happiness."</td>";
+        $blockPet .= "<td>".$userName."</td>";
+        $blockPet .= "</tr>";
+    }
+    $blockPet .= "</table>";
+}
+// query for best players
+$sqlPlayer = "SELECT m.memID, m.userName, m.dateAdded, COUNT(p.petID) petNum ".
+             "FROM Pets p RIGHT JOIN Members m ON p.memID =  m.memID ".
+             "GROUP BY m.memID, m.userName, m.dateAdded ".
+             "ORDER BY petNum DESC";
+
+$resultPlayer = mysqli_query($mysqli, $sqlPlayer) or die(mysqli_error($mysqli));
+
+if (mysqli_num_rows($resultPlayer) >= 1) {                
+    $blockPlayer ="<table id='players-ranking'><tr>"
+        ."<th>Players</th>"
+        ."<th>Start Date</th>"                
+        ."<th>Number of Pets</th>"."</tr>";
+
+    while ($info = mysqli_fetch_array($resultPlayer)) {
+        $userName = stripslashes($info['userName']);
+        $dateAdded = stripslashes($info['dateAdded']);
+        $petNum = $info['petNum'];
+        $blockPlayer .= "<tr>";
+        $blockPlayer .= "<td>".$userName."</td>";
+        $blockPlayer .= "<td>".$dateAdded."</td>";
+        $blockPlayer .= "<td>".$petNum."</td>";
+        $blockPlayer .= "</tr>";
+    }
+    $blockPlayer .= "</table>";
+}
 ?>
-
+<main>
+    <div id="pets-ranking-container">
+        <h2>MOST HAPPINESS PETS</h2>
+        <?=$blockPet?>
+    </div>
+    <div id="players-ranking-container">
+        <h2>BEST PLAYERS</h2>
+        <?=$blockPlayer?>
+    </div>
+</main>
 <!-- Footer -->
 <footer class="w3-green w3-container w3-padding-64 w3-center w3-opacity">  
   <div class="w3-xlarge w3-padding-32">
@@ -93,6 +152,18 @@ function myFunction() {
   } else { 
     x.className = x.className.replace(" w3-show", "");
   }
+}
+
+function rankPets() {
+    // switch options
+    document.getElementById("players-ranking-container").style.display = "none";
+    document.getElementById("pets-ranking-container").style.display = "block";
+}
+
+function rankPlayers() {
+    // switch options
+    document.getElementById("pets-ranking-container").style.display = "none";
+    document.getElementById("players-ranking-container").style.display = "block";
 }
 </script>
 

@@ -11,6 +11,25 @@ if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
 }
 $petID = $_POST['petID'];
 $imageloc = $_POST['imageLocation'];
+
+
+$server="localhost";
+$user="thu";
+$pass="letmein7";
+$database="okprojectDB";
+
+$mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
+$userID = $_SESSION["userid"];
+$username = $_SESSION["username"];
+$rname = $_SESSION["fname"];
+
+$sql = "SELECT * FROM Pets WHERE memID = $userID AND petID = $petID";
+$result = mysqli_query($mysqli, $sql);
+$row = mysqli_fetch_array($result);
+
+$health = $row['health'];
+$happiness = $row['happiness'];
+$hunger = $row['hunger'];
 ?>
 
 
@@ -133,11 +152,11 @@ $imageloc = $_POST['imageLocation'];
     <div id="game-area" class="w3-container w3-center" >
         <div class="info-container">
             <p class="criteria" id="happiness"><strong>Happiness</strong></p>
-            <p class="points" id="happiness-points"> 5</p>
+            <p class="points" id="happiness-points"> <?php echo $happiness; ?></p>
             <p class="criteria" id="hunger"><strong>Not Hungry</strong></p>
-            <p class="points" id="hunger-points"> 5</p>
+            <p class="points" id="hunger-points"> <?php echo $hunger; ?></p>
             <p class="criteria" id="health"><strong>Health</strong></p>
-            <p class="points" id="health-points">5</p>
+            <p class="points" id="health-points"><?php echo $health; ?></p>
             <button class="action" id="feed" onclick="feed()">Feed your buddy</button>
             <button class="action" id="play" onclick="play()">Play together</button>
             <button class="action" id="rank" onclick="">Rank</button>
@@ -215,10 +234,9 @@ $imageloc = $_POST['imageLocation'];
         
         function saveData() {
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", "savegame.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
             xhr.onreadystatechange = () => {
-                if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.readyState == 4 && xhr.status == 0) {
                     $(document).ready(() => {
                         document.getElementById("status").innerHTML = "SAVED!";
                         $("#status").show().fadeOut(1000);
@@ -229,12 +247,8 @@ $imageloc = $_POST['imageLocation'];
             const happiness = parseInt(document.getElementById("happiness-points").innerHTML);
             const hunger = parseInt(document.getElementById("hunger-points").innerHTML);
             const health = parseInt(document.getElementById("health-points").innerHTML);
-
-            xhr.onreadystatechange = function() { // Call a function when the state changes.
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 0) {
-                    alert("Test");
-                }
-            }
+            xhr.open("POST", "savegame.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             console.log(<?php echo $petID;?>);
             const data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
             xhr.send(data);

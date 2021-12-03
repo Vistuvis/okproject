@@ -93,7 +93,7 @@ if (mysqli_num_rows($result) == 0) {
                   if (!$fileinfo->isDot()) {
                       //echo ($fileinfo->getFilename());
                       echo "<label>
-                      <input type=\"radio\" name=\"petloc\" id=\"petloc\" value=\"$fileinfo\" checked><img src=\"pet_assets\\$fileinfo\" class=\"resize\">
+                      <input type=\"radio\" name=\"petloc\" id=\"petloc\" value=\"$fileinfo\" ><img src=\"pet_assets\\$fileinfo\" class=\"resize\">
                       </label>";
                   }
               }
@@ -218,7 +218,7 @@ if ($pets || $pets == false) {
       function insertNewPet() {
       //let formData = new FormData(document.forms.myform);
       let xhr = new XMLHttpRequest();
-      let data = "petName=" +document.getElementById("petName").value + "&petloc=" + document.getElementById("petloc").value;
+      let data = "petName=" +document.getElementById("petName").value + "&petloc=" + document.querySelector('input[name="petloc"]:checked').value;;
       xhr.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
     document.getElementById("demo").innerHTML = this.responseText;
@@ -235,6 +235,7 @@ if ($pets || $pets == false) {
       xhr.send(data);
       //xhr.onload = () => alert(xhr.response);
       modal.style.display = "none";
+      
   }
   
     </script>

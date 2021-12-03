@@ -23,6 +23,8 @@ $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fa
 $sql = "UPDATE Pets SET happiness = ".$happiness.", health = ".$health.", hunger = ".$hunger." WHERE petID = ".$petID; //changed petid from 1
 if (mysqli_query($mysqli, $sql)) {
 	echo "Success!";
+    header("Location: pet_selection.php");
+    exit;
 } else{
 	echo "failed!";
 
