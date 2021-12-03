@@ -100,7 +100,7 @@ if (mysqli_num_rows($result) == 0) {
 
             ?>
             </fieldset>
-            <div><button onclick='insertNewPet()' class="w3-button w3-black w3-large w3-margin-top">Adopt a pet!</button></div>
+            <div><button type="button" onclick='insertNewPet()' class="w3-button w3-black w3-large w3-margin-top">Adopt a pet!</button></div>
         </form>
   </div>
 </div>
@@ -216,7 +216,6 @@ if ($pets || $pets == false) {
         }
 
       function insertNewPet() {
-
       //let formData = new FormData(document.forms.myform);
       let xhr = new XMLHttpRequest();
       let data = "petName=" +document.getElementById("petName").value + "&petloc=" + document.getElementById("petloc").value;
@@ -227,9 +226,15 @@ if ($pets || $pets == false) {
           };
       xhr.open("POST", "newpet.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() { // Call a function when the state changes.
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 0) {
+        alert("Test");
+    }
+    console.log(xhr.readyState);
+}
       xhr.send(data);
       //xhr.onload = () => alert(xhr.response);
-  
+      modal.style.display = "none";
   }
   
     </script>

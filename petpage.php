@@ -141,12 +141,12 @@ $imageloc = $_POST['imageLocation'];
             <button class="action" id="feed" onclick="feed()">Feed your buddy</button>
             <button class="action" id="play" onclick="play()">Play together</button>
             <button class="action" id="rank" onclick="">Rank</button>
-            <button class="action" id="save" onclick="saveData()">Save</button>
+            <button type="button" class="action" id="save" onclick="saveData()">Save</button>
 
         </div>
         <div id="item-container"></div>
         <div id="pet-container">
-            <img class="resize2" id="pet" src="<?php echo $imageloc; ?>">
+            <img id="pet" src="<?php echo $imageloc; ?>">
         </div>
         <div id="dialog-container"></div>
         <div id="status"></div>
@@ -215,6 +215,8 @@ $imageloc = $_POST['imageLocation'];
         
         function saveData() {
             const xhr = new XMLHttpRequest();
+            xhr.open("POST", "savegame.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     $(document).ready(() => {
@@ -228,8 +230,11 @@ $imageloc = $_POST['imageLocation'];
             const hunger = parseInt(document.getElementById("hunger-points").innerHTML);
             const health = parseInt(document.getElementById("health-points").innerHTML);
 
-            xhr.open("POST", "savegame.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() { // Call a function when the state changes.
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 0) {
+                    alert("Test");
+                }
+            }
             console.log(<?php echo $petID;?>);
             const data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
             xhr.send(data);

@@ -1,8 +1,8 @@
 $(document).ready(function () {
     $("form").submit(function (event) {
       var formData = {
-        name: $("#petName").val(),
-        email: $("#petloc").val(),
+        name: $("#name").val(),
+        email: $("#email").val(),
       };
   
       $.ajax({
