@@ -31,6 +31,7 @@ $health = $row['health'];
 $happiness = $row['happiness'];
 $hunger = $row['hunger'];
 $name = $row['petName'];
+$mysqli -> close();
 ?>
 
 
@@ -140,7 +141,7 @@ $name = $row['petName'];
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
           <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Home</a>
           <a href="pet_selection.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pets</a>
-          <a href="petpage.php" class="w3-bar-item w3-button w3-padding-large w3-white"><?php echo $name; ?></a>
+          <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white"><?php echo $name; ?></a>
           <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Rankings</a>
           <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
         </div>
@@ -191,6 +192,9 @@ $name = $row['petName'];
         </div>
         <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
     </footer>
+    <form method="post" id="theForm" action="death.php">
+    <input type="hidden" name="petID" value="<?php echo $petID; ?>">
+    </form>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
@@ -225,8 +229,18 @@ var intervalId = window.setInterval(function(){ //update health and saves automa
                     document.getElementById("hunger-points").innerHTML = hungerLevel;
                 document.getElementById("happiness-points").innerHTML = happinessLevel;
             saveData();
+            if(healthlevel <= 0){
+                petdeath();
+            }
 
 }, 5000);
+
+
+function petdeath(){
+    document.getElementById('theForm').submit()
+
+
+}
         // Used to toggle the menu on small screens when clicking on the menu button
         function myFunction() {
             var x = document.getElementById("navDemo");

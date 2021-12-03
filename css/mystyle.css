@@ -6,6 +6,15 @@
     background-size: cover;
 }
 
+#death-background {
+
+  background-image: url("../assets/css-images/background3.jpg");
+  background-color: hsl(122, 49%, 38%);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
 
 .ok-text-color {
 
@@ -149,7 +158,6 @@ input {
     margin-left: auto;
     margin-right: auto;
     background-color: #fff;
-    border-radius: 15px;
 
   }
 
