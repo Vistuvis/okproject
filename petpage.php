@@ -135,6 +135,8 @@ $hunger = $row['hunger'];
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
           <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
           <a href="pet_selection.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pets</a>
+          <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Rankings</a>
+          <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
         </div>
       
         <!-- Navbar on small screens -->
@@ -159,7 +161,6 @@ $hunger = $row['hunger'];
             <p class="points" id="health-points"><?php echo $health; ?></p>
             <button class="action" id="feed" onclick="feed()">Feed your buddy</button>
             <button class="action" id="play" onclick="play()">Play together</button>
-            <button class="action" id="rank" onclick="">Rank</button>
             <button type="button" class="action" id="save" onclick="saveData()">Save</button>
 
         </div>
@@ -186,6 +187,38 @@ $hunger = $row['hunger'];
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
     <script>
+        document.getElementById("pet").onclick = function() {
+        play();
+}
+
+var intervalId = window.setInterval(function(){ //update health and saves automatically
+            const hunger = document.getElementById("hunger-points").innerHTML;
+            const health= document.getElementById("health-points").innerHTML;
+            let healthlevel = parseInt(health);
+            let hungerLevel = parseInt(hunger);
+            let happyCounter = 5;
+            if(hungerLevel < 50){
+                happyCounter = 25;
+            }
+            else {
+                happyCounter = 5;
+            }
+            const happiness = document.getElementById("happiness-points").innerHTML;
+            let happinessLevel = parseInt(happiness);
+            if(happinessLevel > 0){
+             happinessLevel -= happyCounter;
+            }
+            if(hungerLevel == 0){
+                healthlevel -= 5;
+            } else{
+            hungerLevel -= 5;
+                }
+                document.getElementById("health-points").innerHTML = healthlevel;
+                    document.getElementById("hunger-points").innerHTML = hungerLevel;
+                document.getElementById("happiness-points").innerHTML = happinessLevel;
+            saveData();
+
+}, 5000);
         // Used to toggle the menu on small screens when clicking on the menu button
         function myFunction() {
             var x = document.getElementById("navDemo");
@@ -200,7 +233,7 @@ $hunger = $row['hunger'];
             const hunger = document.getElementById("hunger-points").innerHTML;
             let hungerLevel = parseInt(hunger);
             
-            if (hungerLevel < 10) {
+            if (hungerLevel < 80) {
                 document.getElementById("item-container").innerHTML="<img id='item' src='assets/css-images/food.webp'>";
                 // show icon in 3s using Jquery
                 $(document).ready(() => {
@@ -234,9 +267,18 @@ $hunger = $row['hunger'];
         
         function saveData() {
             const xhr = new XMLHttpRequest();
+            xhr.open("POST", "savegame.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            const happiness = parseInt(document.getElementById("happiness-points").innerHTML);
+            const hunger = parseInt(document.getElementById("hunger-points").innerHTML);
+            const health = parseInt(document.getElementById("health-points").innerHTML);
+            let data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
+
+            xhr.send(data);
+            console.log(xhr.readyState);
 
             xhr.onreadystatechange = () => {
-                if (xhr.readyState == 4 && xhr.status == 0) {
+                if (xhr.readyState == 4 && xhr.status == 200) {
                     $(document).ready(() => {
                         document.getElementById("status").innerHTML = "SAVED!";
                         $("#status").show().fadeOut(1000);
@@ -244,14 +286,6 @@ $hunger = $row['hunger'];
                 }
             };
 
-            const happiness = parseInt(document.getElementById("happiness-points").innerHTML);
-            const hunger = parseInt(document.getElementById("hunger-points").innerHTML);
-            const health = parseInt(document.getElementById("health-points").innerHTML);
-            xhr.open("POST", "savegame.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            console.log(<?php echo $petID;?>);
-            const data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
-            xhr.send(data);
         }
     </script>
 
