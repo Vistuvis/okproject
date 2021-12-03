@@ -23,7 +23,7 @@ $mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fa
 $sql = "INSERT INTO Pets(petID, memID, petName, happiness, health, hunger, imageLocation) VALUES(NULL, $memID, '$petName', 100, 100, 100, 'pet_assets/$imageLocation')";
 if (mysqli_query($mysqli, $sql)) {
 	echo "Success!";
-    header("Location: login.html");
+    header("Location: pet_selection.php");
     exit;
 
 } else{
@@ -32,5 +32,5 @@ if (mysqli_query($mysqli, $sql)) {
 }
 echo $petName;
 echo $imageLocation;
-echo "test";
+
 ?>

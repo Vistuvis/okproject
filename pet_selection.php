@@ -80,7 +80,7 @@ if (mysqli_num_rows($result) == 0) {
     <h2>Select Attributes for your Pet</h2>
   </div>
   <div class="modal-body">
-  <form class="register-form2" name="myform">
+  <form class="register-form2" id="testform" name="myform" action="pet_selection.php">
             <div class="name">
                 <input id="petName" class="input2" type="text" name="petName" placeholder="petName" required minlength="3" maxlength="20" />
             </div>
@@ -100,7 +100,7 @@ if (mysqli_num_rows($result) == 0) {
 
             ?>
             </fieldset>
-            <div><button type="button" onclick='insertNewPet()' class="w3-button w3-black w3-large w3-margin-top">Adopt a pet!</button></div>
+            <div><button type="button" onclick='insertNewPet()' id="button1" class="w3-button w3-black w3-large w3-margin-top">Adopt a pet!</button></div>
         </form>
   </div>
 </div>
@@ -117,7 +117,8 @@ if ($pets || $pets == false) {
 </div>";
 }
 ?>
-  <div class="ok-content";
+<div id="reload">
+  <div class="ok-content"
       <?php
 
         
@@ -161,6 +162,7 @@ if ($pets || $pets == false) {
 
       ?>
   </div>
+      </div>
 </div>
 
     <!-- Footer -->
@@ -212,12 +214,23 @@ if ($pets || $pets == false) {
         window.onclick = function(event) {
           if (event.target == modal) {
             modal.style.display = "none";
+            location.reload(); 
           }
+          
+        }
+        function refresh(){
+          location.reload(); 
         }
 
       function insertNewPet() {
+        if(document.getElementById("petName").value == ""){
+          alert("You did not enter a name:");
+        } else{
+
+        
       //let formData = new FormData(document.forms.myform);
       let xhr = new XMLHttpRequest();
+      console.log(xhr.readyState);
       let data = "petName=" +document.getElementById("petName").value + "&petloc=" + document.querySelector('input[name="petloc"]:checked').value;;
       xhr.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
@@ -234,10 +247,11 @@ if ($pets || $pets == false) {
 }
       xhr.send(data);
       //xhr.onload = () => alert(xhr.response);
-      modal.style.display = "none";
-      
+      document.getElementById("button1").disabled = true;
+      //$("#reload").load("pet_selection.php");
   }
-  
+
+      }
     </script>
 
 </body>
