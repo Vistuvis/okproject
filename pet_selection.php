@@ -127,6 +127,7 @@ if ($pets == false) {
             while ($row = mysqli_fetch_array($result)) {
                 $imageloc = $row['imageLocation'];
                 $name = $row['petName'];
+                $petID = $row['petID'];
                 // echo $imageloc;
                 // echo "<img src=\"imageloc\" alt=\"$name\">";
                 printf("  
@@ -146,6 +147,8 @@ if ($pets == false) {
             <td>
             <form method=\"POST\ action=\"petpage.php\">
             <input type=\"submit\" value=\"Interact With\" class=\"w3-button w3-black w3-large w3-margin-top\" />
+            <input type=\"hidden\" id=\"petID\" name=\"petID\" value=\"$petID\">
+            <input type=\"hidden\" id=\"imageLocation\" name=\"imageLocation\" value=\"$imageloc\">
             </form>
             </td>
            </tr>
@@ -215,7 +218,7 @@ if ($pets == false) {
 
       let formData = new FormData(document.forms.myform);
       const xhr = new XMLHttpRequest();
-      let data = "newpet.php?petName=" +document.getElementById("petName").value + "&petloc=" + document.getElementById("petloc").value;
+      //let data = "newpet.php?petName=" +document.getElementById("petName").value + "&petloc=" + document.getElementById("petloc").value;
       xhr.open("POST", "newpet.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = () => {
@@ -228,10 +231,9 @@ if ($pets == false) {
         }
       };
       xhr.send(formData);
-      console.log(" i am in the function2")
       xhr.onload = () => alert(xhr.response);
 
-     /* let userid = <?php echo $_POST['petName']; ?>;
+     /* let userid = <?php //echo $_POST['petName']; ?>;
       xhr.open("POST", "newpet.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       const data = "petName=" + document.getElementById("petName").value + "&petloc=" + $('input[name="petloc"]:checked').val();
