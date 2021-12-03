@@ -10,7 +10,9 @@ if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
 }
 $petID =intval($_POST["petID"]);
 $happiness= intval($_POST["happiness"]);
+if($happiness < 0){ $happiness = 0;}
 $hunger= intval($_POST["hunger"]);
+if($hunger < 0) {$hunger =0;}
 $health = intval($_POST["health"]);
 
 $server="localhost";
