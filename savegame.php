@@ -8,10 +8,10 @@ if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
     header("Location: login.html");
     exit;
 }
-$petID = $_POST["petID"];
-$happiness= $_POST["happiness"];
-$hunger= $_POST["hunger"];
-$health = $_POST["health"];
+$petID =intval($_POST["petID"]);
+$happiness= intval($_POST["happiness"]);
+$hunger= intval($_POST["hunger"]);
+$health = intval($_POST["health"]);
 
 $server="localhost";
 $user="thu";

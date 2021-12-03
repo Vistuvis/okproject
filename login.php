@@ -1,11 +1,6 @@
 
 <?php
 session_start();
-if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
-    $output = "Good luck on your play!";
-	header("Location: pet_selection.php");
-	exit;
-} 
 
 $server="localhost";
 $user="thu";

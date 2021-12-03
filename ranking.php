@@ -40,6 +40,7 @@
     <a href="index.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>
     <a href="pet_selection.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pet</a>
     <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large w3-white">Ranking</a>
+    <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
   </div>
 
   <!-- Navbar on small screens -->

@@ -30,6 +30,7 @@ $row = mysqli_fetch_array($result);
 $health = $row['health'];
 $happiness = $row['happiness'];
 $hunger = $row['hunger'];
+$name = $row['petName'];
 ?>
 
 
@@ -50,7 +51,7 @@ $hunger = $row['hunger'];
     }
 
     #game-area {
-        height: 700px;
+        height: 650px;
         width: 900px;
         background-image: url('assets/css-images/pethouse.jpeg'); 
         background-repeat: no-repeat;
@@ -126,6 +127,10 @@ $hunger = $row['hunger'];
         bottom: 400px;
         margin: 20px auto;
     }
+
+    .customcursor{
+        cursor: url('assets/css-images/pngwing.com.png'), auto;	
+    }
 </style>
 <body>
 
@@ -133,8 +138,9 @@ $hunger = $row['hunger'];
     <div class="w3-top">
         <div class="w3-bar w3-green w3-card w3-left-align w3-large  w3-opacity">
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-          <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+          <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Home</a>
           <a href="pet_selection.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pets</a>
+          <a href="petpage.php" class="w3-bar-item w3-button w3-padding-large w3-white"><?php echo $name; ?></a>
           <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-hover-white">Rankings</a>
           <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
         </div>
@@ -142,6 +148,8 @@ $hunger = $row['hunger'];
         <!-- Navbar on small screens -->
         <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
           <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large">My Pets</a>
+          <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large">Rankings</a>
+          <a href="logout.php" class="w3-bar-item w3-button w3-padding-large">Logout</a>
         </div>
       </div>
 
@@ -166,7 +174,7 @@ $hunger = $row['hunger'];
         </div>
         <div id="item-container"></div>
         <div id="pet-container">
-            <img id="pet" src="<?php echo $imageloc; ?>">
+            <img class="customcursor" id="pet" src="<?php echo $imageloc; ?>">
         </div>
         <div id="dialog-container"></div>
         <div id="status"></div>
@@ -189,7 +197,7 @@ $hunger = $row['hunger'];
     <script>
         document.getElementById("pet").onclick = function() {
         play();
-}
+        }
 
 var intervalId = window.setInterval(function(){ //update health and saves automatically
             const hunger = document.getElementById("hunger-points").innerHTML;
@@ -267,22 +275,25 @@ var intervalId = window.setInterval(function(){ //update health and saves automa
         
         function saveData() {
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", "savegame.php", true);
 
             xhr.onreadystatechange = () => {
                 if (xhr.readyState == 4 && xhr.status == 200) {
+
                     $(document).ready(() => {
                         document.getElementById("status").innerHTML = "SAVED!";
                         $("#status").show().fadeOut(1000);
                     });
+
                 }
             };
+                        
+            xhr.open("POST", "savegame.php", true);
 
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             const happiness = parseInt(document.getElementById("happiness-points").innerHTML);
             const hunger = parseInt(document.getElementById("hunger-points").innerHTML);
             const health = parseInt(document.getElementById("health-points").innerHTML);
-            let data = "petID=<?php echo $petID;?>" + "happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
+            let data = "petID=<?php echo $petID;?>" + "&happiness="+ happiness + "&hunger=" +hunger+ "&health="+ health;
 
             xhr.send(data);
             console.log(xhr.readyState);
