@@ -26,6 +26,7 @@ if (mysqli_query($mysqli, $sql)) {
 } else{
 	echo "failed!";
 }
-
+echo $petName;
+echo $imageLocation;
 echo "test";
 ?>

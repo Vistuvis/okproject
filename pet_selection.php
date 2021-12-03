@@ -110,7 +110,7 @@ if (mysqli_num_rows($result) == 0) {
 <div class=" ok-table-container w3-padding-64 w3-row-padding w3-green">
 <?php
 
-if ($pets == false) {
+if ($pets || $pets == false) {
     echo "<div class=\"w3-container w3-white w3-center\" style=\"padding:128px 16px\">
   <p class=\"ok-text-color w3-xlarge\">Please create your pet</p>
   <button id=\"myBtn\" class=\" w3-button w3-black w3-large w3-margin-top\">Create a Pet</button>
@@ -175,7 +175,9 @@ if ($pets == false) {
         </div>
         <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
     </footer>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
     <script>
         // Used to toggle the menu on small screens when clicking on the menu button
         function myFunction() {
@@ -213,31 +215,20 @@ if ($pets == false) {
           }
         }
 
-        
       function insertNewPet() {
 
-      let formData = new FormData(document.forms.myform);
-      const xhr = new XMLHttpRequest();
-      //let data = "newpet.php?petName=" +document.getElementById("petName").value + "&petloc=" + document.getElementById("petloc").value;
+      //let formData = new FormData(document.forms.myform);
+      let xhr = new XMLHttpRequest();
+      let data = "petName=" +document.getElementById("petName").value + "&petloc=" + document.getElementById("petloc").value;
+      xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("demo").innerHTML = this.responseText;
+            }
+          };
       xhr.open("POST", "newpet.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          document.getElementById("demo").innerHTML = xhr.responseText;
-        }         else {
-          console.log("err");
-          console.log(xhr.readyState);
-          console.log(xhr.status);
-        }
-      };
-      xhr.send(formData);
-      xhr.onload = () => alert(xhr.response);
-
-     /* let userid = <?php //echo $_POST['petName']; ?>;
-      xhr.open("POST", "newpet.php", true);
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      const data = "petName=" + document.getElementById("petName").value + "&petloc=" + $('input[name="petloc"]:checked').val();
-      xhr.send(data);*/
+      xhr.send(data);
+      //xhr.onload = () => alert(xhr.response);
   
   }
   
