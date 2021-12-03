@@ -39,7 +39,7 @@
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
     <a href="index.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>
     <a href="pet_selection.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pet</a>
-    <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large w3-white">Ranking</a>
+    <a href="ranking.php" class="w3-bar-item w3-button w3-padding-large w3-white">Rankingz</a>
     <a href="logout.php" class="right-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Logout</a>
   </div>
 
@@ -95,7 +95,7 @@ if (mysqli_num_rows($resultPet) >= 1) {
     $blockPet .= "</table>";
 }
 // query for best players
-$sqlPlayer = "SELECT m.memID, m.userName, m.dateAdded, COUNT(p.petID) petNum ".
+$sqlPlayer = "SELECT m.memID, m.userName, m.dateAdded, SUM(p.happiness) petNum ".
              "FROM Pets p RIGHT JOIN Members m ON p.memID =  m.memID ".
              "GROUP BY m.memID, m.userName, m.dateAdded ".
              "ORDER BY petNum DESC";
@@ -106,7 +106,7 @@ if (mysqli_num_rows($resultPlayer) >= 1) {
     $blockPlayer ="<table id='players-ranking'><tr>"
         ."<th>Players</th>"
         ."<th>Start Date</th>"                
-        ."<th>Number of Pets</th>"."</tr>";
+        ."<th>Total Pet Happiness</th>"."</tr>";
 
     while ($info = mysqli_fetch_array($resultPlayer)) {
         $userName = stripslashes($info['userName']);
