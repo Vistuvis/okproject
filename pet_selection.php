@@ -31,6 +31,7 @@ if (mysqli_num_rows($result) == 0) {
     $display = "Congratulations, $rname, you have pets! Please select one:";
     $pets = true;
 }
+
 ?>
 
 
@@ -79,9 +80,9 @@ if (mysqli_num_rows($result) == 0) {
     <h2>Select Attributes for your Pet</h2>
   </div>
   <div class="modal-body">
-  <form class="register-form2" method="POST" action="pet_selection.php" onsubmit="return registerValidation()">
+  <form class="register-form2" name="myform">
             <div class="name">
-                <input class="input2" type="text" name="Pet Name" placeholder="Pet Name" required minlength="3" maxlength="20" />
+                <input id="petName" class="input2" type="text" name="petName" placeholder="petName" required minlength="3" maxlength="20" />
             </div>
             <fieldset class="optionGroup">
             <?php
@@ -92,14 +93,14 @@ if (mysqli_num_rows($result) == 0) {
                   if (!$fileinfo->isDot()) {
                       //echo ($fileinfo->getFilename());
                       echo "<label>
-                      <input type=\"radio\" name=\"ccard\" ><img src=\"pet_assets\\$fileinfo\" class=\"resize\">
+                      <input type=\"radio\" name=\"petloc\" id=\"petloc\" value=\"$fileinfo\" checked><img src=\"pet_assets\\$fileinfo\" class=\"resize\">
                       </label>";
                   }
               }
 
             ?>
             </fieldset>
-            <div><input type="submit" value="Adopt Pet!" class="w3-button w3-black w3-large w3-margin-top" /></div>
+            <div><button onclick='insertNewPet()' class="w3-button w3-black w3-large w3-margin-top">Adopt a pet!</button></div>
         </form>
   </div>
 </div>
@@ -209,19 +210,35 @@ if ($pets == false) {
           }
         }
 
+        
       function insertNewPet() {
+
+      let formData = new FormData(document.forms.myform);
       const xhr = new XMLHttpRequest();
+      let data = "newpet.php?petName=" +document.getElementById("petName").value + "&petloc=" + document.getElementById("petloc").value;
+      xhr.open("POST", "newpet.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = () => {
         if (xhr.readyState == 4 && xhr.status == 200) {
           document.getElementById("demo").innerHTML = xhr.responseText;
+        }         else {
+          console.log("err");
+          console.log(xhr.readyState);
+          console.log(xhr.status);
         }
       };
-      const userid = $_session["userid"];
+      xhr.send(formData);
+      console.log(" i am in the function2")
+      xhr.onload = () => alert(xhr.response);
+
+     /* let userid = <?php echo $_POST['petName']; ?>;
       xhr.open("POST", "newpet.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      const data = "memID=...&petName=" + document.getElementById("petName").value;
-      xhr.send(data);
-    }
+      const data = "petName=" + document.getElementById("petName").value + "&petloc=" + $('input[name="petloc"]:checked').val();
+      xhr.send(data);*/
+  
+  }
+  
     </script>
 
 </body>

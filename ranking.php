@@ -57,6 +57,20 @@ if (filter_input(INPUT_COOKIE, 'auth') == session_id()) {
 </header>
 
 
+<?php
+
+$server="localhost";
+$user="thu";
+$pass="letmein7";
+$database="okprojectDB";
+
+$mysqli = mysqli_connect($server, $user, $pass, $database) or die("Connection fail: ".mysqli_connect_error());
+
+//here is where need maybe some options to select different tables?
+
+
+?>
+
 <!-- Footer -->
 <footer class="w3-green w3-container w3-padding-64 w3-center w3-opacity">  
   <div class="w3-xlarge w3-padding-32">
