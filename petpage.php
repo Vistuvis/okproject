@@ -73,8 +73,9 @@ $imageloc = $_POST['imageLocation'];
     }
 
     #pet{
-        width: 150%;
+        max-width: 60%;
         height: auto;
+        align: center;
     }
 
     #item-container {
@@ -114,12 +115,12 @@ $imageloc = $_POST['imageLocation'];
         <div class="w3-bar w3-green w3-card w3-left-align w3-large  w3-opacity">
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
           <a href="index.html" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
-          <a href="pet_selection.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pets</a>
+          <a href="pet_selection.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">My Pets</a>
         </div>
       
         <!-- Navbar on small screens -->
         <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-          <a href="pet_selection.html" class="w3-bar-item w3-button w3-padding-large">My Pets</a>
+          <a href="pet_selection.php" class="w3-bar-item w3-button w3-padding-large">My Pets</a>
         </div>
       </div>
 
@@ -145,7 +146,7 @@ $imageloc = $_POST['imageLocation'];
         </div>
         <div id="item-container"></div>
         <div id="pet-container">
-            <img id="pet" src="<?php echo $imageloc; ?>">
+            <img class="resize2" id="pet" src="<?php echo $imageloc; ?>">
         </div>
         <div id="dialog-container"></div>
         <div id="status"></div>

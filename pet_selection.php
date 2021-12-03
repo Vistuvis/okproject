@@ -145,10 +145,10 @@ if ($pets == false) {
            </tr>
             <tr>
             <td>
-            <form method=\"POST\ action=\"petpage.php\">
-            <input type=\"submit\" value=\"Interact With\" class=\"w3-button w3-black w3-large w3-margin-top\" />
+            <form method=\"POST\" action=\"petpage.php\">
             <input type=\"hidden\" id=\"petID\" name=\"petID\" value=\"$petID\">
             <input type=\"hidden\" id=\"imageLocation\" name=\"imageLocation\" value=\"$imageloc\">
+            <input type=\"submit\" value=\"Interact With\" class=\"w3-button w3-black w3-large w3-margin-top\" />
             </form>
             </td>
            </tr>
